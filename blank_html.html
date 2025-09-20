@@ -115,12 +115,21 @@
             color: #aaaaaa;
         }
 
-        .highlighted-line, .search-highlighted {
+        .highlighted-line {
             background-color: #fffacd;
         }
 
-        body.dark-mode .highlighted-line, body.dark-mode .search-highlighted {
+        body.dark-mode .highlighted-line {
             background-color: #6a632c;
+        }
+
+        .search-highlighted {
+            background-color: #ffeb3b; /* Dzeltenā krāsa meklēšanas izcelšanai */
+            padding: 2px;
+            border-radius: 3px;
+        }
+        body.dark-mode .search-highlighted {
+            background-color: #e57373; /* Sarkanīgāka krāsa tumšajam režīmam */
         }
 
         .dialogue-entry {
@@ -319,6 +328,8 @@
 
             <p class="stage-direction">Viņi cīnās.</p>
 
+            <p class="stage-direction">Ienāk PRINCS, ar pavadoņiem.</p>
+
             <div class="dialogue-entry" data-speaker="prince">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="neutral-speaker" data-speaker="prince">PRINCS</span></p>
@@ -348,7 +359,7 @@
 
         // Noņem iepriekšējo izcelšanu un izceļ runātāja tekstu, pamatojoties uz data-speaker atribūtu
         function highlightSpeaker(speakerData) {
-            document.querySelectorAll('.dialogue-line').forEach(p => p.classList.remove('highlighted-line', 'search-highlighted'));
+            document.querySelectorAll('.dialogue-line').forEach(p => p.classList.remove('highlighted-line'));
             document.querySelectorAll(`.dialogue-line[data-speaker="${speakerData}"]`).forEach(line => {
                 line.classList.add('highlighted-line');
             });
@@ -368,19 +379,40 @@
 
         // Meklēšanas funkcija
         function searchDialogue() {
-            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const searchQuery = document.getElementById('search-input').value;
             const allDialogueLines = document.querySelectorAll('.dialogue-line');
             
-            // Noņemam iepriekšējo izcelšanu un filtrus
-            document.querySelectorAll('.dialogue-line').forEach(line => line.classList.remove('highlighted-line', 'search-highlighted'));
-            document.querySelectorAll('.dialogue-entry').forEach(entry => entry.style.display = 'block');
-            document.getElementById('speaker-filter').value = 'all';
+            let firstMatch = null;
 
+            // Noņem iepriekšējo izcelšanu un atjauno oriģinālo tekstu
             allDialogueLines.forEach(line => {
-                if (searchQuery && line.textContent.toLowerCase().includes(searchQuery)) {
-                    line.classList.add('search-highlighted');
+                const originalText = line.getAttribute('data-original-text');
+                if (originalText) {
+                    line.innerHTML = originalText;
                 }
             });
+
+            if (searchQuery.trim() === '') {
+                return;
+            }
+
+            allDialogueLines.forEach(line => {
+                const text = line.textContent;
+                line.setAttribute('data-original-text', text); // Saglabājam oriģinālo tekstu
+                const regex = new RegExp(searchQuery, 'gi');
+                
+                if (regex.test(text)) {
+                    line.innerHTML = text.replace(regex, `<span class="search-highlighted">${searchQuery}</span>`);
+                    if (!firstMatch) {
+                        firstMatch = line;
+                    }
+                }
+            });
+
+            // Pārvietojas uz pirmo atrasto rezultātu
+            if (firstMatch) {
+                firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
         }
 
         // Tēla filtrēšanas funkcija
@@ -389,7 +421,14 @@
             const dialogueEntries = document.querySelectorAll('.dialogue-entry');
 
             // Noņemam meklēšanas izcelšanu
-            document.querySelectorAll('.dialogue-line').forEach(line => line.classList.remove('search-highlighted'));
+            document.querySelectorAll('.dialogue-line').forEach(line => {
+                line.classList.remove('search-highlighted');
+                const originalText = line.getAttribute('data-original-text');
+                if (originalText) {
+                    line.innerHTML = originalText;
+                }
+            });
+            document.getElementById('search-input').value = '';
 
             dialogueEntries.forEach(entry => {
                 const speaker = entry.getAttribute('data-speaker');
