@@ -20,7 +20,7 @@
             text-align: center;
         }
         h1 {
-            font-family: 'Playfair Display', serif; /* A more decorative font for the title */
+            font-family: 'Playfair Display', serif;
             font-size: 2.5em;
             margin: 0;
         }
@@ -55,15 +55,15 @@
         }
         .capulet-speaker {
             font-weight: bold;
-            color: #b71c1c; /* A deep red for Capulets */
+            color: #b71c1c;
         }
         .montague-speaker {
             font-weight: bold;
-            color: #0d47a1; /* A deep blue for Montagues */
+            color: #0d47a1;
         }
         .neutral-speaker {
             font-weight: bold;
-            color: #388e3c; /* A green for neutral characters */
+            color: #388e3c;
         }
         .stage-direction {
             color: #777;
@@ -74,17 +74,22 @@
         .highlighted-line {
             background-color: #fffacd;
         }
-        .dialogue-container {
+        .dialogue-block {
             display: flex;
-            align-items: flex-start;
+            align-items: baseline;
             margin-bottom: 10px;
         }
-        .dialogue-container button {
+        .dialogue-block .speaker-name {
+            display: flex;
+            align-items: center;
             margin-right: 10px;
+            min-width: 150px; /* Lai nosaukums un poga neietu pāri */
+        }
+        .dialogue-block .speaker-name span {
             cursor: pointer;
-            border: 1px solid #ccc;
-            background: #eee;
-            border-radius: 3px;
+        }
+        .dialogue-block .dialogue-text {
+            flex-grow: 1;
         }
     </style>
 </head>
@@ -126,83 +131,105 @@
             <h2>SCĒNA I. Verona. Publiska vieta.</h2>
             <p class="stage-direction">Ienāk SAMPSONS un GREGORIJS, Kapuleti, bruņoti ar zobeniem un vairogiem.</p>
             
-            <div class="dialogue-container">
-                <p><span class="capulet-speaker">SAMPSONS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">Gregorij, pēc mana vārda, mēs nenēsāsim ogles.</p>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="capulet-speaker">SAMPSONS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">Gregorij, pēc mana vārda, mēs nenēsāsim ogles.</p>
             </div>
             
-            <div class="dialogue-container">
-                <p><span class="capulet-speaker">GREGORIJS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">Nē, jo tad mēs būtu ogļu nēsātāji.</p>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="capulet-speaker">GREGORIJS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">Nē, jo tad mēs būtu ogļu nēsātāji.</p>
             </div>
             
-            <div class="dialogue-container">
-                <p><span class="capulet-speaker">SAMPSONS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">Es domāju, ka, ja mēs būsim dusmās, mēs zīmēsim.</p>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="capulet-speaker">SAMPSONS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">Es domāju, ka, ja mēs būsim dusmās, mēs zīmēsim.</p>
             </div>
             
-            <div class="dialogue-container">
-                <p><span class="capulet-speaker">GREGORIJS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">Ay, kamēr tu dzīvo, zīmē savu kaklu no apkakles.</p>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="capulet-speaker">GREGORIJS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">Ay, kamēr tu dzīvo, zīmē savu kaklu no apkakles.</p>
 
             <p class="stage-direction">Ienāk ABRAHAMS un BALTASARS (Montagues)</p>
             
-            <div class="dialogue-container">
-                <p><span class="montague-speaker">ABRAHAMS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">Vai jūs kodināt savu īkšķi pie mums, kungs?</p>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="montague-speaker">ABRAHAMS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">Vai jūs kodināt savu īkšķi pie mums, kungs?</p>
             </div>
 
-            <div class="dialogue-container">
-                <p><span class="capulet-speaker">SAMPSONS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">Es kodu savu īkšķi, kungs.</p>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="capulet-speaker">SAMPSONS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">Es kodu savu īkšķi, kungs.</p>
             </div>
 
-            <div class="dialogue-container">
-                <p><span class="montague-speaker">ABRAHAMS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">Vai jūs kodināt savu īkšķi pie mums, kungs?</p>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="montague-speaker">ABRAHAMS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">Vai jūs kodināt savu īkšķi pie mums, kungs?</p>
             </div>
 
-            <div class="dialogue-container">
-                <p><span class="capulet-speaker">SAMPSONS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">[Pie GREGORIJA] Vai likums ir mūsu pusē, ja es saku jā?</p>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="capulet-speaker">SAMPSONS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">[Pie GREGORIJA] Vai likums ir mūsu pusē, ja es saku jā?</p>
             </div>
 
             <p class="stage-direction">Viņi cīnās.</p>
 
             <p class="stage-direction">Ienāk BENVOLIJS</p>
 
-            <div class="dialogue-container">
-                <p><span class="montague-speaker">BENVOLIJS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">Daļa, muļķi! Ielieciet savus zobenus; jūs nezināt, ko jūs darāt.</p>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="montague-speaker">BENVOLIJS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">Daļa, muļķi! Ielieciet savus zobenus; jūs nezināt, ko jūs darāt.</p>
             </div>
 
             <p class="stage-direction">Nosit viņu zobenus.</p>
 
             <p class="stage-direction">Ienāk TĪBALTS</p>
 
-            <div class="dialogue-container">
-                <p><span class="capulet-speaker">TĪBALTS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">Kas, vai tu esi izvilkts starp šiem bezsirdīgajiem pakaļgaliem? Pagriezies, Benvolio, paskaties uz savu nāvi.</p>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="capulet-speaker">TĪBALTS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">Kas, vai tu esi izvilkts starp šiem bezsirdīgajiem pakaļgaliem? Pagriezies, Benvolio, paskaties uz savu nāvi.</p>
             </div>
 
             <p class="stage-direction">Viņi cīnās.</p>
 
             <p class="stage-direction">Ienāk PRINCS, ar pavadoņiem.</p>
 
-            <div class="dialogue-container">
-                <p><span class="neutral-speaker">PRINCS</span></p>
-                <button onclick="toggleDialogue(this)">Slēpt/Rādīt</button>
-                <p class="dialogue-line">Dumpīgie subjekti, miera ienaidnieki, <br>
+            <div class="dialogue-block">
+                <div class="speaker-name">
+                    <span class="neutral-speaker">PRINCS</span>
+                    <button onclick="toggleDialogue(this)">+/-</button>
+                </div>
+                <p class="dialogue-text">Dumpīgie subjekti, miera ienaidnieki, <br>
                     Šī kaimiņa notraipītā tērauda apgānītāji,-- <br>
                     Vai viņi nedzirdēs? Kas, ho!
                 </p>
@@ -216,34 +243,27 @@
     </div>
 
     <script>
-        // Funkcija, lai pārslēgtu dialoga redzamību atsevišķi
+        // Pārslēdz dialoga redzamību
         function toggleDialogue(button) {
-            const dialogueLine = button.nextElementSibling;
-            if (dialogueLine && dialogueLine.classList.contains('dialogue-line')) {
-                if (dialogueLine.style.display === "none") {
-                    dialogueLine.style.display = "block";
-                } else {
-                    dialogueLine.style.display = "none";
-                }
+            const dialogueText = button.closest('.speaker-name').nextElementSibling;
+            if (dialogueText.style.display === 'none') {
+                dialogueText.style.display = 'block';
+                button.textContent = '-';
+            } else {
+                dialogueText.style.display = 'none';
+                button.textContent = '+';
             }
         }
 
-        // Funkcija, lai izceltu visas konkrētā tēla rindas
+        // Noņem iepriekšējo izcelšanu un izceļ runātāja tekstu
         function highlightSpeaker(speakerClass) {
-            // Noņemam iepriekšējo izcelšanu visām dialoga rindām
-            const allDialogueLines = document.querySelectorAll('.dialogue-line');
-            allDialogueLines.forEach(line => {
-                line.classList.remove('highlighted-line');
-            });
-
-            // Izceļam tēla rindas
-            const speakerNameSpans = document.querySelectorAll(`.${speakerClass}`);
-            speakerNameSpans.forEach(speakerSpan => {
-                const dialogueContainer = speakerSpan.closest('.dialogue-container');
-                if (dialogueContainer) {
-                    const dialogueLine = dialogueContainer.querySelector('.dialogue-line');
-                    if (dialogueLine) {
-                        dialogueLine.classList.add('highlighted-line');
+            document.querySelectorAll('.dialogue-text').forEach(p => p.classList.remove('highlighted-line'));
+            document.querySelectorAll(`.${speakerClass}`).forEach(speakerSpan => {
+                const dialogueBlock = speakerSpan.closest('.dialogue-block');
+                if (dialogueBlock) {
+                    const dialogueText = dialogueBlock.querySelector('.dialogue-text');
+                    if (dialogueText) {
+                        dialogueText.classList.add('highlighted-line');
                     }
                 }
             });
@@ -251,7 +271,7 @@
 
         // Nejaušā citāta ģenerators
         function generateRandomQuote() {
-            const allDialogueLines = document.querySelectorAll('.dialogue-line');
+            const allDialogueLines = document.querySelectorAll('.dialogue-text');
             if (allDialogueLines.length > 0) {
                 const randomIndex = Math.floor(Math.random() * allDialogueLines.length);
                 const randomLine = allDialogueLines[randomIndex];
@@ -261,14 +281,10 @@
             }
         }
 
-        // Pievienojam notikumu apstrādātājus runātāju vārdiem
+        // Notikumu klausītājs, lai pievienotu funkcionalitāti
         document.addEventListener('DOMContentLoaded', () => {
-            const speakers = document.querySelectorAll('.capulet-speaker, .montague-speaker, .neutral-speaker');
-            speakers.forEach(speaker => {
-                speaker.style.cursor = 'pointer'; // Pievienojam peles kursoru, lai norādītu, ka var noklikšķināt
-                speaker.onclick = () => {
-                    highlightSpeaker(speaker.className);
-                };
+            document.querySelectorAll('.capulet-speaker, .montague-speaker, .neutral-speaker').forEach(speaker => {
+                speaker.onclick = () => highlightSpeaker(speaker.className);
             });
         });
     </script>
