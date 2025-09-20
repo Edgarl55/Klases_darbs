@@ -236,4 +236,41 @@
                 line.classList.remove('highlighted-line');
             });
 
-            // Izceļam tē
+            // Izceļam tēla rindas
+            const speakerNameSpans = document.querySelectorAll(`.${speakerClass}`);
+            speakerNameSpans.forEach(speakerSpan => {
+                const dialogueContainer = speakerSpan.closest('.dialogue-container');
+                if (dialogueContainer) {
+                    const dialogueLine = dialogueContainer.querySelector('.dialogue-line');
+                    if (dialogueLine) {
+                        dialogueLine.classList.add('highlighted-line');
+                    }
+                }
+            });
+        }
+
+        // Nejaušā citāta ģenerators
+        function generateRandomQuote() {
+            const allDialogueLines = document.querySelectorAll('.dialogue-line');
+            if (allDialogueLines.length > 0) {
+                const randomIndex = Math.floor(Math.random() * allDialogueLines.length);
+                const randomLine = allDialogueLines[randomIndex];
+                alert(`Nejaušs citāts: "${randomLine.textContent.trim()}"`);
+            } else {
+                alert("Nav nevienas dialoga rindas, ko parādīt.");
+            }
+        }
+
+        // Pievienojam notikumu apstrādātājus runātāju vārdiem
+        document.addEventListener('DOMContentLoaded', () => {
+            const speakers = document.querySelectorAll('.capulet-speaker, .montague-speaker, .neutral-speaker');
+            speakers.forEach(speaker => {
+                speaker.style.cursor = 'pointer'; // Pievienojam peles kursoru, lai norādītu, ka var noklikšķināt
+                speaker.onclick = () => {
+                    highlightSpeaker(speaker.className);
+                };
+            });
+        });
+    </script>
+</body>
+</html>
