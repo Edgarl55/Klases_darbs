@@ -71,6 +71,9 @@
             display: block;
             margin: 10px 0;
         }
+        .highlighted-line {
+            background-color: #fffacd;
+        }
     </style>
 </head>
 <body>
@@ -112,51 +115,51 @@
             <p class="stage-direction">Ienāk SAMPSONS un GREGORIJS, Kapuleti, bruņoti ar zobeniem un vairogiem.</p>
             
             <p><span class="capulet-speaker">SAMPSONS</span></p>
-            <p>Gregorij, pēc mana vārda, mēs nenēsāsim ogles.</p>
+            <p class="dialogue-line">Gregorij, pēc mana vārda, mēs nenēsāsim ogles.</p>
             
             <p><span class="capulet-speaker">GREGORIJS</span></p>
-            <p>Nē, jo tad mēs būtu ogļu nēsātāji.</p>
+            <p class="dialogue-line">Nē, jo tad mēs būtu ogļu nēsātāji.</p>
             
             <p><span class="capulet-speaker">SAMPSONS</span></p>
-            <p>Es domāju, ka, ja mēs būsim dusmās, mēs zīmēsim.</p>
+            <p class="dialogue-line">Es domāju, ka, ja mēs būsim dusmās, mēs zīmēsim.</p>
             
             <p><span class="capulet-speaker">GREGORIJS</span></p>
-            <p>Ay, kamēr tu dzīvo, zīmē savu kaklu no apkakles.</p>
+            <p class="dialogue-line">Ay, kamēr tu dzīvo, zīmē savu kaklu no apkakles.</p>
 
             <p class="stage-direction">Ienāk ABRAHAMS un BALTASARS (Montagues)</p>
             
             <p><span class="montague-speaker">ABRAHAMS</span></p>
-            <p>Vai jūs kodināt savu īkšķi pie mums, kungs?</p>
+            <p class="dialogue-line">Vai jūs kodināt savu īkšķi pie mums, kungs?</p>
 
             <p><span class="capulet-speaker">SAMPSONS</span></p>
-            <p>Es kodu savu īkšķi, kungs.</p>
+            <p class="dialogue-line">Es kodu savu īkšķi, kungs.</p>
 
             <p><span class="montague-speaker">ABRAHAMS</span></p>
-            <p>Vai jūs kodināt savu īkšķi pie mums, kungs?</p>
+            <p class="dialogue-line">Vai jūs kodināt savu īkšķi pie mums, kungs?</p>
 
             <p><span class="capulet-speaker">SAMPSONS</span></p>
-            <p>[Pie GREGORIJA] Vai likums ir mūsu pusē, ja es saku jā?</p>
+            <p class="dialogue-line">[Pie GREGORIJA] Vai likums ir mūsu pusē, ja es saku jā?</p>
 
             <p class="stage-direction">Viņi cīnās.</p>
 
             <p class="stage-direction">Ienāk BENVOLIJS</p>
 
             <p><span class="montague-speaker">BENVOLIJS</span></p>
-            <p>Daļa, muļķi! Ielieciet savus zobenus; jūs nezināt, ko jūs darāt.</p>
+            <p class="dialogue-line">Daļa, muļķi! Ielieciet savus zobenus; jūs nezināt, ko jūs darāt.</p>
 
             <p class="stage-direction">Nosit viņu zobenus.</p>
 
             <p class="stage-direction">Ienāk TĪBALTS</p>
 
             <p><span class="capulet-speaker">TĪBALTS</span></p>
-            <p>Kas, vai tu esi izvilkts starp šiem bezsirdīgajiem pakaļgaliem? Pagriezies, Benvolio, paskaties uz savu nāvi.</p>
+            <p class="dialogue-line">Kas, vai tu esi izvilkts starp šiem bezsirdīgajiem pakaļgaliem? Pagriezies, Benvolio, paskaties uz savu nāvi.</p>
 
             <p class="stage-direction">Viņi cīnās.</p>
 
             <p class="stage-direction">Ienāk PRINCS, ar pavadoņiem.</p>
 
             <p><span class="neutral-speaker">PRINCS</span></p>
-            <p>Dumpīgie subjekti, miera ienaidnieki, <br>
+            <p class="dialogue-line">Dumpīgie subjekti, miera ienaidnieki, <br>
                 Šī kaimiņa notraipītā tērauda apgānītāji,-- <br>
                 Vai viņi nedzirdēs? Kas, ho!
             </p>
@@ -164,6 +167,64 @@
         </article>
     </section>
 
+    <div style="text-align: center; margin-top: 20px;">
+        <button onclick="toggleDialogue()">Slēpt/Rādīt dialogu</button>
+        <button onclick="generateRandomQuote()">Rādīt nejaušu citātu</button>
+    </div>
+
+    <script>
+        // Funkcija, lai pārslēgtu dialoga redzamību
+        function toggleDialogue() {
+            const dialogueLines = document.querySelectorAll('.dialogue-line');
+            dialogueLines.forEach(line => {
+                if (line.style.display === "none") {
+                    line.style.display = "block";
+                } else {
+                    line.style.display = "none";
+                }
+            });
+        }
+
+        // Funkcija, lai izceltu visas konkrētā tēla rindas
+        function highlightSpeaker(speakerClass) {
+            // Noņemam iepriekšējo izcelšanu visām dialoga rindām
+            const allDialogueLines = document.querySelectorAll('.dialogue-line');
+            allDialogueLines.forEach(line => {
+                line.classList.remove('highlighted-line');
+            });
+
+            // Izceļam tēla rindas
+            const speakerLines = document.querySelectorAll(`.${speakerClass}`);
+            speakerLines.forEach(speakerNameSpan => {
+                const dialogueLine = speakerNameSpan.nextElementSibling;
+                if (dialogueLine && dialogueLine.classList.contains('dialogue-line')) {
+                    dialogueLine.classList.add('highlighted-line');
+                }
+            });
+        }
+
+        // Nejaušā citāta ģenerators
+        function generateRandomQuote() {
+            const allDialogueLines = document.querySelectorAll('.dialogue-line');
+            if (allDialogueLines.length > 0) {
+                const randomIndex = Math.floor(Math.random() * allDialogueLines.length);
+                const randomLine = allDialogueLines[randomIndex];
+                alert(`Nejaušs citāts: "${randomLine.textContent.trim()}"`);
+            } else {
+                alert("Nav nevienas dialoga rindas, ko parādīt.");
+            }
+        }
+
+        // Pievienojam notikumu apstrādātājus runātāju vārdiem
+        document.addEventListener('DOMContentLoaded', () => {
+            const speakers = document.querySelectorAll('.capulet-speaker, .montague-speaker, .neutral-speaker');
+            speakers.forEach(speaker => {
+                speaker.style.cursor = 'pointer'; // Pievienojam peles kursoru, lai norādītu, ka var noklikšķināt
+                speaker.onclick = () => {
+                    highlightSpeaker(speaker.className);
+                };
+            });
+        });
+    </script>
 </body>
 </html>
-
