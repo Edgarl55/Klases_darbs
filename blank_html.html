@@ -56,14 +56,17 @@
         .capulet-speaker {
             font-weight: bold;
             color: #b71c1c;
+            cursor: pointer;
         }
         .montague-speaker {
             font-weight: bold;
             color: #0d47a1;
+            cursor: pointer;
         }
         .neutral-speaker {
             font-weight: bold;
             color: #388e3c;
+            cursor: pointer;
         }
         .stage-direction {
             color: #777;
@@ -75,21 +78,22 @@
             background-color: #fffacd;
         }
         .dialogue-block {
-            display: flex;
-            align-items: baseline;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
-        .dialogue-block .speaker-name {
+        .dialogue-header {
             display: flex;
             align-items: center;
-            margin-right: 10px;
-            min-width: 150px; /* Lai nosaukums un poga neietu pāri */
+            margin-bottom: 5px;
         }
-        .dialogue-block .speaker-name span {
+        .dialogue-header button {
+            margin-left: 10px;
             cursor: pointer;
+            border: 1px solid #ccc;
+            background: #eee;
+            border-radius: 3px;
         }
-        .dialogue-block .dialogue-text {
-            flex-grow: 1;
+        .dialogue-text {
+            margin-left: 16px; /* Lai sakārtotu ar runātāja vārdu */
         }
     </style>
 </head>
@@ -132,7 +136,7 @@
             <p class="stage-direction">Ienāk SAMPSONS un GREGORIJS, Kapuleti, bruņoti ar zobeniem un vairogiem.</p>
             
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="capulet-speaker">SAMPSONS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -140,7 +144,7 @@
             </div>
             
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="capulet-speaker">GREGORIJS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -148,7 +152,7 @@
             </div>
             
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="capulet-speaker">SAMPSONS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -156,7 +160,7 @@
             </div>
             
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="capulet-speaker">GREGORIJS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -165,7 +169,7 @@
             <p class="stage-direction">Ienāk ABRAHAMS un BALTASARS (Montagues)</p>
             
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="montague-speaker">ABRAHAMS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -173,7 +177,7 @@
             </div>
 
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="capulet-speaker">SAMPSONS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -181,7 +185,7 @@
             </div>
 
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="montague-speaker">ABRAHAMS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -189,7 +193,7 @@
             </div>
 
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="capulet-speaker">SAMPSONS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -201,7 +205,7 @@
             <p class="stage-direction">Ienāk BENVOLIJS</p>
 
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="montague-speaker">BENVOLIJS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -213,7 +217,7 @@
             <p class="stage-direction">Ienāk TĪBALTS</p>
 
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="capulet-speaker">TĪBALTS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -225,7 +229,7 @@
             <p class="stage-direction">Ienāk PRINCS, ar pavadoņiem.</p>
 
             <div class="dialogue-block">
-                <div class="speaker-name">
+                <div class="dialogue-header">
                     <span class="neutral-speaker">PRINCS</span>
                     <button onclick="toggleDialogue(this)">+/-</button>
                 </div>
@@ -245,7 +249,7 @@
     <script>
         // Pārslēdz dialoga redzamību
         function toggleDialogue(button) {
-            const dialogueText = button.closest('.speaker-name').nextElementSibling;
+            const dialogueText = button.closest('.dialogue-header').nextElementSibling;
             if (dialogueText.style.display === 'none') {
                 dialogueText.style.display = 'block';
                 button.textContent = '-';
