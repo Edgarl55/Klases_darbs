@@ -124,12 +124,12 @@
         }
 
         .search-highlighted {
-            background-color: #ffeb3b; /* Dzeltenā krāsa meklēšanas izcelšanai */
+            background-color: #ffeb3b;
             padding: 2px;
             border-radius: 3px;
         }
         body.dark-mode .search-highlighted {
-            background-color: #e57373; /* Sarkanīgāka krāsa tumšajam režīmam */
+            background-color: #e57373;
         }
 
         .dialogue-entry {
@@ -328,8 +328,6 @@
 
             <p class="stage-direction">Viņi cīnās.</p>
 
-            <p class="stage-direction">Ienāk PRINCS, ar pavadoņiem.</p>
-
             <div class="dialogue-entry" data-speaker="prince">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="neutral-speaker" data-speaker="prince">PRINCS</span></p>
@@ -359,7 +357,7 @@
 
         // Noņem iepriekšējo izcelšanu un izceļ runātāja tekstu, pamatojoties uz data-speaker atribūtu
         function highlightSpeaker(speakerData) {
-            document.querySelectorAll('.dialogue-line').forEach(p => p.classList.remove('highlighted-line'));
+            document.querySelectorAll('.dialogue-line').forEach(p => p.classList.remove('highlighted-line', 'search-highlighted'));
             document.querySelectorAll(`.dialogue-line[data-speaker="${speakerData}"]`).forEach(line => {
                 line.classList.add('highlighted-line');
             });
@@ -388,7 +386,13 @@
             allDialogueLines.forEach(line => {
                 const originalText = line.getAttribute('data-original-text');
                 if (originalText) {
+                    // Saglabājam data-speaker atribūtu pirms atjaunošanas
+                    const speakerData = line.getAttribute('data-speaker');
                     line.innerHTML = originalText;
+                    // Atjaunojam data-speaker atribūtu, ja tas pastāvēja
+                    if (speakerData) {
+                        line.setAttribute('data-speaker', speakerData);
+                    }
                 }
             });
 
@@ -422,10 +426,13 @@
 
             // Noņemam meklēšanas izcelšanu
             document.querySelectorAll('.dialogue-line').forEach(line => {
-                line.classList.remove('search-highlighted');
                 const originalText = line.getAttribute('data-original-text');
                 if (originalText) {
+                    const speakerData = line.getAttribute('data-speaker');
                     line.innerHTML = originalText;
+                    if (speakerData) {
+                        line.setAttribute('data-speaker', speakerData);
+                    }
                 }
             });
             document.getElementById('search-input').value = '';
@@ -447,7 +454,7 @@
 
         // Pievienojam notikumu klausītājus runātāju vārdiem
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('[data-speaker]').forEach(speakerSpan => {
+            document.querySelectorAll('.capulet-speaker, .montague-speaker, .neutral-speaker').forEach(speakerSpan => {
                 speakerSpan.onclick = () => {
                     const speakerData = speakerSpan.getAttribute('data-speaker');
                     highlightSpeaker(speakerData);
