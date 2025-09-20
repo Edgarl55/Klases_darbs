@@ -12,83 +12,152 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
+            transition: background-color 0.5s, color 0.5s;
         }
+
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+
         header {
             background-color: #5d0f1b;
             color: white;
             padding: 20px 0;
             text-align: center;
         }
+
         h1 {
             font-family: 'Playfair Display', serif;
             font-size: 2.5em;
             margin: 0;
         }
+
         nav {
             background-color: #333;
             color: white;
             padding: 10px;
             text-align: center;
         }
+
         nav a {
             color: white;
             text-decoration: none;
             padding: 10px 20px;
         }
+
         nav a:hover {
             background-color: #555;
         }
+
         section {
             padding: 20px;
             max-width: 800px;
             margin: auto;
         }
+
         article {
             background-color: white;
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: background-color 0.5s, box-shadow 0.5s;
         }
+
+        body.dark-mode article {
+            background-color: #1e1e1e;
+            box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+        }
+
         .prologue-text {
             font-style: italic;
         }
+
         .capulet-speaker {
             font-weight: bold;
             color: #b71c1c;
             cursor: pointer;
         }
+        
+        body.dark-mode .capulet-speaker {
+            color: #ff6666;
+        }
+
         .montague-speaker {
             font-weight: bold;
             color: #0d47a1;
             cursor: pointer;
         }
+
+        body.dark-mode .montague-speaker {
+            color: #66b3ff;
+        }
+
         .neutral-speaker {
             font-weight: bold;
             color: #388e3c;
             cursor: pointer;
         }
+
+        body.dark-mode .neutral-speaker {
+            color: #99ff99;
+        }
+
         .stage-direction {
             color: #777;
             font-style: italic;
             display: block;
             margin: 10px 0;
         }
-        .highlighted-line {
+        
+        body.dark-mode .stage-direction {
+            color: #aaaaaa;
+        }
+
+        .highlighted-line, .search-highlighted {
             background-color: #fffacd;
         }
+
+        body.dark-mode .highlighted-line, body.dark-mode .search-highlighted {
+            background-color: #6a632c;
+        }
+
         .dialogue-entry {
             margin-bottom: 10px;
         }
+
         .dialogue-speaker-toggle {
             display: flex;
             align-items: center;
         }
+
         .dialogue-speaker-toggle button {
             margin-left: 10px;
             cursor: pointer;
             border: 1px solid #ccc;
             background: #eee;
+            border-radius: 3px;
+        }
+
+        body.dark-mode .dialogue-speaker-toggle button {
+            background-color: #333;
+            color: #fff;
+            border-color: #555;
+        }
+
+        .controls-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .controls-container input[type="text"], .controls-container select {
+            padding: 5px;
+            border: 1px solid #ccc;
             border-radius: 3px;
         }
     </style>
@@ -103,6 +172,29 @@
         <a href="#prologue">Prologs</a>
         <a href="#scene1">1. aina</a>
     </nav>
+
+    <section id="controls">
+        <div class="controls-container">
+            <div>
+                <input type="text" id="search-input" placeholder="Meklēt tekstu...">
+                <button onclick="searchDialogue()">Meklēt</button>
+            </div>
+            <div>
+                <label for="speaker-filter">Atlasīt tēlu:</label>
+                <select id="speaker-filter" onchange="filterByCharacter()">
+                    <option value="all">Visi tēli</option>
+                    <option value="sampsons">Sampsons</option>
+                    <option value="gregory">Gregorijs</option>
+                    <option value="abrahams">Abrahams</option>
+                    <option value="benvolio">Benvolijs</option>
+                    <option value="tybalt">Tībalts</option>
+                    <option value="prince">Princis</option>
+                </select>
+            </div>
+            <button onclick="toggleDarkMode()">Pārslēgt tumšo režīmu</button>
+            <button onclick="generateRandomQuote()">Rādīt nejaušu citātu</button>
+        </div>
+    </section>
 
     <section id="prologue">
         <article>
@@ -131,7 +223,7 @@
             <h2>SCĒNA I. Verona. Publiska vieta.</h2>
             <p class="stage-direction">Ienāk SAMPSONS un GREGORIJS, Kapuleti, bruņoti ar zobeniem un vairogiem.</p>
             
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="sampsons">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="capulet-speaker" data-speaker="sampsons">SAMPSONS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -139,7 +231,7 @@
                 <p class="dialogue-line" data-speaker="sampsons">Gregorij, pēc mana vārda, mēs nenēsāsim ogles.</p>
             </div>
             
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="gregory">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="capulet-speaker" data-speaker="gregory">GREGORIJS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -147,7 +239,7 @@
                 <p class="dialogue-line" data-speaker="gregory">Nē, jo tad mēs būtu ogļu nēsātāji.</p>
             </div>
             
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="sampsons">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="capulet-speaker" data-speaker="sampsons">SAMPSONS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -155,7 +247,7 @@
                 <p class="dialogue-line" data-speaker="sampsons">Es domāju, ka, ja mēs būsim dusmās, mēs zīmēsim.</p>
             </div>
             
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="gregory">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="capulet-speaker" data-speaker="gregory">GREGORIJS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -164,7 +256,7 @@
 
             <p class="stage-direction">Ienāk ABRAHAMS un BALTASARS (Montagues)</p>
             
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="abrahams">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="montague-speaker" data-speaker="abrahams">ABRAHAMS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -172,7 +264,7 @@
                 <p class="dialogue-line" data-speaker="abrahams">Vai jūs kodināt savu īkšķi pie mums, kungs?</p>
             </div>
 
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="sampsons">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="capulet-speaker" data-speaker="sampsons">SAMPSONS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -180,7 +272,7 @@
                 <p class="dialogue-line" data-speaker="sampsons">Es kodu savu īkšķi, kungs.</p>
             </div>
 
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="abrahams">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="montague-speaker" data-speaker="abrahams">ABRAHAMS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -188,7 +280,7 @@
                 <p class="dialogue-line" data-speaker="abrahams">Vai jūs kodināt savu īkšķi pie mums, kungs?</p>
             </div>
 
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="sampsons">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="capulet-speaker" data-speaker="sampsons">SAMPSONS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -200,7 +292,7 @@
 
             <p class="stage-direction">Ienāk BENVOLIJS</p>
 
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="benvolio">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="montague-speaker" data-speaker="benvolio">BENVOLIJS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -212,7 +304,7 @@
 
             <p class="stage-direction">Ienāk TĪBALTS</p>
 
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="tybalt">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="capulet-speaker" data-speaker="tybalt">TĪBALTS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -224,7 +316,7 @@
 
             <p class="stage-direction">Ienāk PRINCS, ar pavadoņiem.</p>
 
-            <div class="dialogue-entry">
+            <div class="dialogue-entry" data-speaker="prince">
                 <div class="dialogue-speaker-toggle">
                     <p><span class="neutral-speaker" data-speaker="prince">PRINCS</span></p>
                     <button onclick="toggleDialogue(this)">+/-</button>
@@ -237,10 +329,6 @@
             
         </article>
     </section>
-
-    <div style="text-align: center; margin-top: 20px;">
-        <button onclick="generateRandomQuote()">Rādīt nejaušu citātu</button>
-    </div>
 
     <script>
         // Pārslēdz dialoga redzamību
@@ -257,9 +345,11 @@
 
         // Noņem iepriekšējo izcelšanu un izceļ runātāja tekstu, pamatojoties uz data-speaker atribūtu
         function highlightSpeaker(speakerData) {
-            document.querySelectorAll('.dialogue-line').forEach(p => p.classList.remove('highlighted-line'));
-            document.querySelectorAll(`.dialogue-line[data-speaker="${speakerData}"]`).forEach(line => {
-                line.classList.add('highlighted-line');
+            document.querySelectorAll('.dialogue-line').forEach(p => p.classList.remove('highlighted-line', 'search-highlighted'));
+            document.querySelectorAll(`[data-speaker="${speakerData}"]`).forEach(line => {
+                if (line.classList.contains('dialogue-line')) {
+                    line.classList.add('highlighted-line');
+                }
             });
         }
 
@@ -275,11 +365,44 @@
             }
         }
 
+        // Meklēšanas funkcija
+        function searchDialogue() {
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            const allDialogueLines = document.querySelectorAll('.dialogue-line');
+            
+            allDialogueLines.forEach(line => {
+                line.classList.remove('search-highlighted');
+                if (searchQuery && line.textContent.toLowerCase().includes(searchQuery)) {
+                    line.classList.add('search-highlighted');
+                }
+            });
+        }
+
+        // Tēla filtrēšanas funkcija
+        function filterByCharacter() {
+            const selectedSpeaker = document.getElementById('speaker-filter').value;
+            const dialogueEntries = document.querySelectorAll('.dialogue-entry');
+
+            dialogueEntries.forEach(entry => {
+                const speaker = entry.getAttribute('data-speaker');
+                if (selectedSpeaker === 'all' || speaker === selectedSpeaker) {
+                    entry.style.display = 'block';
+                } else {
+                    entry.style.display = 'none';
+                }
+            });
+        }
+
+        // Tumšā režīma pārslēgšana
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+
         // Pievienojam notikumu klausītājus runātāju vārdiem
         document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('[data-speaker]').forEach(speaker => {
-                speaker.onclick = () => {
-                    const speakerData = speaker.getAttribute('data-speaker');
+            document.querySelectorAll('[data-speaker]').forEach(speakerSpan => {
+                speakerSpan.onclick = () => {
+                    const speakerData = speakerSpan.getAttribute('data-speaker');
                     highlightSpeaker(speakerData);
                 };
             });
